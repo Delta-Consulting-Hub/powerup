@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     form.addEventListener("submit", function (e) {
       e.preventDefault();
 
-      // Get values
+      // Get form data
       const name = document.getElementById("name").value.trim();
       const email = document.getElementById("email").value.trim();
       const subject = document.getElementById("subject").value.trim();
       const message = document.getElementById("message").value.trim();
 
-      // Simple validation check
+      // Validation check for empty fields
       if (!name || !email || !subject || !message) {
         alert("Please fill in all the fields.");
         return;
@@ -24,18 +24,26 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // Format WhatsApp message
-      const formattedMessage =
-        `📝 *New GYM Inquiry*\n\n` +
-        `👤 *Name:* ${name}\n` +
-        `📧 *Email:* ${email}\n` +
-        `📌 *Subject:* ${subject}\n` +
-        `💬 *Message:* ${message}`;
+      // Format the WhatsApp message
+      const formattedMessage = `
+        📝 *New GYM Inquiry*\n
+        👤 *Name:* ${name}\n
+        📧 *Email:* ${email}\n
+        📌 *Subject:* ${subject}\n
+        💬 *Message:* ${message}
+      `;
 
+      // WhatsApp link with encoded message
       const whatsappURL = `https://wa.me/918975484038?text=${encodeURIComponent(formattedMessage)}`;
 
-      // Use window.location.href instead of window.open for better mobile compatibility
-      window.location.href = whatsappURL;
+      // Check if the platform is mobile or desktop and handle accordingly
+      if (window.innerWidth <= 800) {
+        // Mobile: Open WhatsApp using window.location.href
+        window.location.href = whatsappURL;
+      } else {
+        // Desktop: Open in a new tab
+        window.open(whatsappURL, "_blank");
+      }
     });
   }
 });
